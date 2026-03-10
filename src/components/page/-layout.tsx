@@ -2,7 +2,12 @@ import FileSelectSpace from "./FileSelectSpace";
 
 const Layout = () => {
   return (
-    <div className="flex flex-col w-full h-full bg-[#111214]">
+    <div
+      className="relative flex flex-col w-full h-full
+      bg-linear-to-br from-[#F00] via-[#241919] to-[#F50]"
+    >
+      <div className="absolute inset-0 bg-black opacity-70" />
+
       <div
         className="relative w-full h-screen pb-10
         flex flex-col justify-center items-center gap-10"
