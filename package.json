@@ -1,7 +1,7 @@
 {
-  "name": "my-react-vite-template",
+  "name": "music-genre-finder",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.0.0",
   "type": "module",
   "homepage": "https://BB-69.github.io/my-react-vite-template",
   "scripts": {
