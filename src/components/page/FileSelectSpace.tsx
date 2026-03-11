@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { searchWithGemini } from "../API/gemini"; //////////////////////
 
 function FileSelectSpace() {
   const [file, setFile] = useState<File | null>(null);
   const [phase, setPhase] = useState<"select" | "process" | "result">("select");
+  const [geminiResult, setGeminiResult] = useState(""); //////////////////////////////
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -15,12 +17,31 @@ function FileSelectSpace() {
     if (selected != null) setPhase("process");
   }
 
-  async function processFile() {
+  async function processFile() { ///////////////////////////////////////
+  if (!file) {
+    setPhase("result");
+    return;
+  }
+
+  try {
+    // ส่งไฟล์เสียงไปให้ Gemini วิเคราะห์
+    const prompt = "วิเคราะห์ไฟล์เสียงนี้ให้หน่อยว่า: 1. เป็นดนตรีแนวไหน 2. ใช้เครื่องดนตรีอะไรบ้าง 3. จังหวะและอารมณ์เพลงเป็นอย่างไร";
+    const answer = await searchWithGemini(prompt, file);
+    
+    // ได้คำตอบมาแล้ว เอาไปเก็บไว้
+    setGeminiResult(answer);
+  } catch (error) {
+    console.error(error);
+    setGeminiResult("เกิดข้อผิดพลาดในการวิเคราะห์ไฟล์เสียง ลองใหม่อีกครั้งนะครับ");
+  } finally {
+    // โหลดเสร็จแล้ว สั่งให้เปลี่ยนหน้า UI ไปโชว์ผลลัพธ์
     setPhase("result");
   }
+  }////////////////////////////////////////////////
 
   function showResult() {
     setPhase("select");
+    setGeminiResult(""); // เคลียร์ข้อความเก่าทิ้ง
   }
 
   useEffect(() => {
@@ -32,8 +53,7 @@ function FileSelectSpace() {
       case "process":
         processFile();
         break;
-      case "result":
-        showResult();
+      case "result"://////////////////////////////////////////////////////
         break;
       default:
     }
@@ -94,15 +114,26 @@ function FileSelectSpace() {
         </div>
       )}
 
-      {phase == "result" && (
+      {phase == "result" && ( //////////////////////////////////////////////////
         <div
-          className="w-full h-full gap-4
-          flex flex-row justify-center items-center
-          text-white"
+          className="w-full h-full p-4 gap-4
+          flex flex-col justify-center items-center
+          text-white bg-black/40 rounded-md border-[1px] border-white/30"
         >
-          Result!
+          {/* กล่องโชว์ผลลัพธ์ (ทำเป็น Scroll เผื่อคำตอบยาว) */}
+          <div className="w-full max-h-[150px] overflow-y-auto text-sm text-left whitespace-pre-wrap leading-relaxed px-2">
+            {geminiResult}
+          </div>
+          
+          {/* ปุ่มกดย้อนกลับไปเลือกไฟล์ใหม่ */}
+          <button 
+            onClick={showResult}
+            className="px-4 py-2 mt-2 border-[1px] border-white rounded hover:bg-white hover:text-black transition-colors duration-200 text-sm font-bold"
+          >
+            วิเคราะห์ไฟล์ใหม่
+          </button>
         </div>
-      )}
+      )}////////////////////////////////////////////////////
     </>
   );
 }
