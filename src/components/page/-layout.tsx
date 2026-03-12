@@ -9,15 +9,15 @@ const Layout = () => {
       <div className="absolute inset-0 bg-black opacity-70" />
 
       <div
-        className="relative w-full h-screen pb-10
-        flex flex-col justify-center items-center gap-10"
+        className="relative w-full h-screen pb-8
+        flex flex-col justify-center items-center gap-8"
       >
         <div className="relative">
           <div className="text-[#F66] text-2xl p-2">Music Genre Finder</div>
         </div>
 
         <div
-          className="w-[60vw] h-[40vh] p-[1.5px]
+          className="w-[60vw] h-[67vh] p-[1.5px]
           flex justify-center items-center
           bg-gradient-to-b from-[#F00] to-white
           rounded-lg"
