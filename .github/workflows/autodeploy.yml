@@ -24,7 +24,18 @@ jobs:
       - name: Install deps
         run: npm ci
 
+      - name: Validate required secrets
+        env:
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
+        run: |
+          if [ -z "$VITE_GEMINI_API_KEY" ]; then
+            echo "❌ ERROR: VITE_GEMINI_API_KEY secret is not set in repository settings."
+            exit 1
+          fi
+
       - name: Build project
+        env:
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
         run: npm run build
 
       - name: Deploy to gh-pages
