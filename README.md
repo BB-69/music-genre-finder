@@ -1,7 +1,7 @@
 Template version:
 
 <!-- VERSION_START -->
-> v0.1.0
+> v0.1.1
 <!-- VERSION_END -->
 
 ## DEPENDENCIES
