@@ -28,7 +28,10 @@ export const searchWithGemini = async (
     // Force the use of version v1 and use the standard model name
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    const prompt = `You are a music expert. The question is: "${query}". Analyze the genre, instruments, and mood from the attached audio file.`;
+    const prompt = `คุณเป็นผู้เชี่ยวชาญด้านดนตรี คำถามคือ: "${query}" กรุณาวิเคราะห์จากไฟล์เสียงที่แนบมา โดยระบุ:
+1. แนวเพลง (Genre)
+2. เครื่องดนตรีที่ใช้
+3. อารมณ์และจังหวะของเพลง`;
 
     let result;
     if (file) {
@@ -42,6 +45,6 @@ export const searchWithGemini = async (
     return response.text();
   } catch (error: any) {
     console.error("Gemini Error Details:", error);
-    throw new Error("A connection error occurred. Please try again.");
+    throw new Error("เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง");
   }
 };
