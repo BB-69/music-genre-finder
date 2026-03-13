@@ -27,7 +27,7 @@ function FileSelectSpace() {
     try {
       // Send the audio file to Gemini for analysis
       const prompt =
-        "Please analyze this audio file: 1. What genre of music is it 2. What instruments are used 3. What are the rhythm and mood of the song";
+        "กรุณาวิเคราะห์ไฟล์เสียงนี้: 1. เพลงนี้เป็นแนวเพลงอะไร 2. มีเครื่องดนตรีอะไรบ้าง 3. จังหวะและอารมณ์ของเพลงเป็นแบบไหน";
       const answer = await searchWithGemini(prompt, file);
 
       // Got the answer, store it
@@ -35,7 +35,7 @@ function FileSelectSpace() {
     } catch (error) {
       console.error(error);
       setGeminiResult(
-        "An error occurred while analyzing the audio file. Please try again.",
+        "เกิดข้อผิดพลาดระหว่างการวิเคราะห์ไฟล์เสียง กรุณาลองใหม่อีกครั้ง",
       );
     } finally {
       // Loading finished, switch the UI page to show the result
@@ -92,12 +92,13 @@ function FileSelectSpace() {
             w-full gap-1 min-w-0 text-center
             group-hover:shadow-white"
           >
-            {file ? "Selected: " + file.name : "Select File"}
+            {file ? "เลือกไฟล์แล้ว: " + file.name : "เลือกไฟล์"}
           </span>
 
           <input
             ref={inputRef}
             type="file"
+            accept="audio/*"
             className="hidden"
             onChange={handleFileChange}
           />
@@ -132,7 +133,7 @@ function FileSelectSpace() {
             onClick={showResult}
             className="px-4 py-2 mt-2 border-[1px] border-white rounded hover:bg-white hover:text-black transition-colors duration-200 text-sm font-bold"
           >
-            Analyze another file
+            วิเคราะห์ไฟล์อื่น
           </button>
         </div>
       )}
